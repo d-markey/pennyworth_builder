@@ -55,7 +55,30 @@ class User_v1 extends NestedOpenedApi {
 }
 ```
 
-2. Create a Dart build file to generate Alfred services, including Open API documentation.
+2. In your server's main program, use Pennyworth's `OpenApiService` to register your REST services, and install the `SwaggerApi` to enable Swagger UI.
+
+```dart
+  final app = Alfred();
+
+  app.typeHandlers.insert(0, openApiTypeHandler);
+
+  final openApiService = setupOpenApiDocumentation_v3(app);
+
+  var apis = [
+    Api_v1(app.route('/api')),
+    SwaggerApi(app.route('/dev/open-api'), openApiService, Directory('assets/swagger-ui-4.1.2/')),
+  ];
+
+  for (var api in apis) {
+    openApiService.mount(api);
+  }
+
+  final server = await app.listen(8080);
+
+  openApiService.addServer(server);
+```
+
+3. Create a Dart build file to generate Alfred services, including Open API documentation.
 
 ```yaml
 targets:
@@ -83,8 +106,17 @@ builders:
     applies_builders: ["source_gen|combining_builder"]
 ```
 
-3. Build your project
+4. Build your project
 
 ```shell
 dart run build_runner build
 ```
+
+5. Run your app
+
+```shell
+dart run .\bin\server.dart
+```
+
+6. Point your browser to `http://localhost:8080/dev/open-api/index.html` and start exploring your APIs!
+
