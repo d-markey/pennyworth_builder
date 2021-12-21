@@ -6,7 +6,7 @@
 [![License](https://img.shields.io/github/license/d-markey/pennyworth_builder?logo=open-source-initiative&logoColor=green)](https://github.com/d-markey/pennyworth_builder/blob/master/LICENSE)
 [![GitHub Repo Stars](https://img.shields.io/github/stars/d-markey/pennyworth_builder)](https://github.com/d-markey/pennyworth_builder/stargazers)
 
-# pennyworth_builder
+# Pennyworth Builder
 
 OpenAPI code generator for Alfred, based on Pennyworth.
 
