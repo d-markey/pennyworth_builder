@@ -12,6 +12,8 @@ OpenAPI code generator for Alfred, based on Pennyworth.
 
 # Usage
 
+For a full sample, please refer to https://github.com/d-markey/pennyworth_sample.
+
 1. Annotate your REST services and REST entities using Pennyworth annotations, e.g.:
 
 ```dart
