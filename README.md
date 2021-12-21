@@ -1,3 +1,11 @@
+[![Dart Workflow](https://github.com/d-markey/pennyworth_builder/actions/workflows/dart.yml/badge.svg)](https://github.com/d-markey/pennyworth_builder/actions/workflows/dart.yml)
+[![Null Safety](https://img.shields.io/badge/null-safety-brightgreen)](https://dart.dev/null-safety)
+[![Dart Style](https://img.shields.io/badge/style-lints-40c4ff.svg)](https://pub.dev/packages/lints)
+[![Last Commits](https://img.shields.io/github/last-commit/d-markey/pennyworth_builder?logo=git&logoColor=white)](https://github.com/d-markey/pennyworth_builder/commits)
+[![Code Size](https://img.shields.io/github/languages/code-size/d-markey/pennyworth_builder?logo=github&logoColor=white)](https://github.com/d-markey/pennyworth_builder)
+[![License](https://img.shields.io/github/license/d-markey/pennyworth_builder?logo=open-source-initiative&logoColor=green)](https://github.com/d-markey/pennyworth_builder/blob/master/LICENSE)
+[![GitHub Repo Stars](https://img.shields.io/github/stars/d-markey/pennyworth_builder)](https://github.com/d-markey/pennyworth_builder/stargazers)
+
 # pennyworth_builder
 
 OpenAPI code generator for Alfred, based on Pennyworth.
