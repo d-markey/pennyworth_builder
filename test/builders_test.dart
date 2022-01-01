@@ -83,9 +83,9 @@ void main() {
       classtElt.metadata.addAll([
         ElementAnnotationMock(
             element: classtElt,
-            value: DartObjectMock(fields: {
-              'title': DartObjectMock.string('Test entity')
-            }, type: DartTypeMock(displayName: 'RestEntity'))),
+            value: DartObjectMock(
+                fields: {'title': DartObjectMock.string('Test entity')},
+                type: DartTypeMock(displayName: 'RestEntity'))),
         ElementAnnotationMock(
             element: classtElt,
             value: DartObjectMock(fields: {
@@ -119,9 +119,9 @@ void main() {
       classtElt.metadata.addAll([
         ElementAnnotationMock(
             element: classtElt,
-            value: DartObjectMock(fields: {
-              'title': DartObjectMock.string('Test entity')
-            }, type: DartTypeMock(displayName: 'RestEntity'))),
+            value: DartObjectMock(
+                fields: {'title': DartObjectMock.string('Test entity')},
+                type: DartTypeMock(displayName: 'RestEntity'))),
         ElementAnnotationMock(
             element: classtElt,
             value: DartObjectMock(fields: {
@@ -151,21 +151,26 @@ void main() {
     });
 
     test('Type specification', () {
-      final unnamedCtor = ConstructorElementMock(name: 'RestData', isDefaultConstructor: true);
+      final unnamedCtor =
+          ConstructorElementMock(name: 'RestData', isDefaultConstructor: true);
       unnamedCtor.parameters.addAll([
         ParameterElementMock(name: 'identifier', type: DartTypeMock.stringType),
-        ParameterElementMock(name: 'selected', type: DartTypeMock.booleanType, isNamed: true),
+        ParameterElementMock(
+            name: 'selected', type: DartTypeMock.booleanType, isNamed: true),
       ]);
 
       final classtElt = ClassElementMock(
-          displayName: 'RestData', name: 'RestData', metadata: [], unnamedConstructor: unnamedCtor);
+          displayName: 'RestData',
+          name: 'RestData',
+          metadata: [],
+          unnamedConstructor: unnamedCtor);
 
       classtElt.metadata.addAll([
         ElementAnnotationMock(
             element: classtElt,
-            value: DartObjectMock(fields: {
-              'title': DartObjectMock.string('Test entity')
-            }, type: DartTypeMock(displayName: 'RestEntity'))),
+            value: DartObjectMock(
+                fields: {'title': DartObjectMock.string('Test entity')},
+                type: DartTypeMock(displayName: 'RestEntity'))),
         ElementAnnotationMock(
             element: classtElt,
             value: DartObjectMock(fields: {

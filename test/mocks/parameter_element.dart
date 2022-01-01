@@ -61,7 +61,9 @@ class ParameterElementMock extends ElementMock implements ParameterElement {
   bool get isStatic => throw UnimplementedError();
 
   @override
-  void appendToWithoutDelimiters(StringBuffer buffer, {bool withNullability = false}) => throw UnimplementedError();
+  void appendToWithoutDelimiters(StringBuffer buffer,
+          {bool withNullability = false}) =>
+      throw UnimplementedError();
 
   @override
   String? get defaultValueCode => throw UnimplementedError();
