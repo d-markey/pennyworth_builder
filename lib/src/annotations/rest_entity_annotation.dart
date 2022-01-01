@@ -5,10 +5,11 @@ import '../extensions.dart';
 import 'annotation_reader.dart';
 
 class RestEntityAnnotation {
-  RestEntityAnnotation._(this.title, this.tags);
+  RestEntityAnnotation._(this.title, this.tags, this.autoSerialize);
 
   final String? title;
   final List<String>? tags;
+  final bool? autoSerialize;
 
   static RestEntityAnnotation? load(Element element) {
     final reader = AnnotationReader<RestEntity>(element);
@@ -19,6 +20,7 @@ class RestEntityAnnotation {
             .getList('tags')
             ?.map((t) => t.toStringValue()?.trim())
             .whereNotEmpty()
-            .toList());
+            .toList(),
+        reader.getBoolean('autoSerialize'));
   }
 }

@@ -27,6 +27,7 @@ class TypeDescriptor {
     if (classElt is ClassElement) {
       final annotation = RestEntityAnnotation.load(classElt);
       _title = annotation?.title ?? '';
+      _autoSerialize = annotation?.autoSerialize;
       _initSerializer(classElt);
       _initDeserializer(classElt);
       _initUnnamedConstructor(classElt);
@@ -49,10 +50,8 @@ class TypeDescriptor {
   }
 
   void _initDeserializer(ClassElement elt) {
-    final deserializer = elt.getMethod('fromJson') ??
-        elt.getMethod('deserialize') ??
-        elt.getNamedConstructor('fromJson') ??
-        elt.getNamedConstructor('deserialize');
+    final deserializer =
+        elt.getMethod('fromJson') ?? elt.getNamedConstructor('fromJson');
     if (deserializer != null) {
       _deserializer = deserializer.name;
       if (deserializer is MethodElement && !deserializer.isStatic) {
@@ -75,8 +74,10 @@ class TypeDescriptor {
   }
 
   late final String _title;
+  late final bool? _autoSerialize;
 
   String get title => _title;
+  bool? get autoSerialize => _autoSerialize;
 
   final String name;
 
@@ -130,7 +131,7 @@ class TypeDescriptor {
   String get serializationExtensionCode {
     return '''
 extension ${name.upperCamelCase()}SerializationExt on $name {
-  Map autoSerialize() {
+  Map<String, dynamic> autoSerialize() {
     final map = <String, dynamic>{};
     ${allFields.map((f) => 'map[${f.name.stringLiteral()}] = ${f.getSerializerCode()};').join('\n')}
     return map;
@@ -151,7 +152,7 @@ extension ${name.upperCamelCase()}SerializationExt on $name {
         }
       }
       return '''
-extension ${name.upperCamelCase()}DeserializationExt on Map {
+extension ${name.upperCamelCase()}DeserializationExt on Map<String, dynamic> {
   $name autoDeserialize${name.upperCamelCase()}() {
     return $name(${args.join(', ')});
   }
@@ -178,7 +179,7 @@ extension ${name.upperCamelCase()}RequestExt on HttpRequest {
 
   Future<List<$name>> getListOf${name.upperCamelCase()}() async {
     final body = await bodyAsJsonList;
-    return body.map((item) => ${getDeserializer('(item as Map)')}).toList();
+    return body.map((item) => ${getDeserializer('(item as Map<String, dynamic>)')}).toList();
   }
 }
     ''';

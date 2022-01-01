@@ -5,6 +5,9 @@ class ArrayTypeDescriptor extends WrappedTypeDescriptor {
   ArrayTypeDescriptor(TypeDescriptor typeDescr) : super(typeDescr);
 
   @override
+  bool? get autoSerialize => typeDescr.autoSerialize;
+
+  @override
   bool get isFuture => typeDescr.isFuture;
 
   @override

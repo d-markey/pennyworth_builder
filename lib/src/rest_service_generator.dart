@@ -10,9 +10,10 @@ import 'descriptors/middleware_loader.dart';
 import 'helpers.dart';
 
 class RestServiceGenerator extends GeneratorForAnnotation<RestService> {
-  RestServiceGenerator(this._loader);
+  RestServiceGenerator(this._loader, this._options);
 
   final OperationLoader _loader;
+  final RestServiceOptions _options;
 
   @override
   Iterable<String> generateForAnnotatedElement(
@@ -63,9 +64,8 @@ extension ${classElt.name.upperCamelCase()}_MounterExt on NestedRoute {
 
   // ignore: non_constant_identifier_names
   List<OpenApiRoute> mount_${classElt.name.upperCamelCase()}(${classElt.name} api, OpenApiService openApiService) {
-    // ensure types used by these operations are registered
-    ${operationEntities.map((t) => 'openApiService.register${t.name.upperCamelCase()}();').toSet().join('\n')}
-
+    ${_options.typeRegistration ? '''// ensure types used by these operations are registered
+          ${operationEntities.map((t) => 'openApiService.register${t.name.upperCamelCase()}();').toSet().join('\n')}''' : ''}
     // mount operations on the service's base URI
     final mountPoint = route(${restService.uri.stringLiteral()}, middleware: ${MiddlewareLoader.load(restService.middleware)});
     final tags = [${restService.tags?.map((t) => t.stringLiteral()).join(', ') ?? ''}];
@@ -77,4 +77,30 @@ extension ${classElt.name.upperCamelCase()}_MounterExt on NestedRoute {
       ''';
     }
   }
+}
+
+class RestServiceOptions {
+  RestServiceOptions([BuilderOptions? options]) {
+    var value =
+        options?.config['auto_type_registration']?.toString().toLowerCase();
+    if (value != null &&
+        (value == 'false' ||
+            value == 'off' ||
+            value == 'disable' ||
+            value == '0')) {
+      typeRegistration = false;
+    } else if (value == null ||
+        value == 'true' ||
+        value == 'on' ||
+        value == 'enable' ||
+        value == '1') {
+      typeRegistration = true;
+    } else {
+      log.warning(
+          'Unsupported value "$value" for auto_type_registration option, assuming "true"');
+      typeRegistration = true;
+    }
+  }
+
+  late final bool typeRegistration;
 }

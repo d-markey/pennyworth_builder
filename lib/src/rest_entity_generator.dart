@@ -6,9 +6,10 @@ import 'package:source_gen/source_gen.dart';
 import 'descriptors/type_loader.dart';
 
 class RestEntityGenerator extends GeneratorForAnnotation<RestEntity> {
-  RestEntityGenerator(this._loader);
+  RestEntityGenerator(this._loader, this._options);
 
   final TypeLoader _loader;
+  final RestEntityOptions _options;
 
   @override
   Iterable<String> generateForAnnotatedElement(
@@ -24,8 +25,35 @@ class RestEntityGenerator extends GeneratorForAnnotation<RestEntity> {
 
     yield '// REST Entity: ${type.name}';
     yield type.specificationExtensionCode;
-    yield type.serializationExtensionCode;
-    yield type.deserializationExtensionCode;
+    if (type.autoSerialize ?? _options.autoSerialize) {
+      yield type.serializationExtensionCode;
+      yield type.deserializationExtensionCode;
+    }
     yield type.requestExtensionCode;
   }
+}
+
+class RestEntityOptions {
+  RestEntityOptions([BuilderOptions? options]) {
+    var value = options?.config['auto_serialization']?.toString().toLowerCase();
+    if (value != null &&
+        (value == 'false' ||
+            value == 'off' ||
+            value == 'disable' ||
+            value == '0')) {
+      autoSerialize = false;
+    } else if (value == null ||
+        value == 'true' ||
+        value == 'on' ||
+        value == 'enable' ||
+        value == '1') {
+      autoSerialize = true;
+    } else {
+      log.warning(
+          'Unsupported value "$value" for auto_serialization option, assuming "true"');
+      autoSerialize = true;
+    }
+  }
+
+  late final bool autoSerialize;
 }

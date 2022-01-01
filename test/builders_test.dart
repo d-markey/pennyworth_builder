@@ -8,11 +8,13 @@ import 'package:pennyworth_builder/src/rest_entity_generator.dart';
 import 'package:pennyworth_builder/src/extensions.dart';
 
 import 'mocks/class_element.dart';
+import 'mocks/constructor_element.dart';
 import 'mocks/dart_object.dart';
 import 'mocks/dart_type.dart';
 import 'mocks/element.dart';
 import 'mocks/element_annotation.dart';
 import 'mocks/field_element.dart';
+import 'mocks/parameter_element.dart';
 
 void main() {
   group('Annotations', () {
@@ -82,13 +84,7 @@ void main() {
         ElementAnnotationMock(
             element: classtElt,
             value: DartObjectMock(fields: {
-              'nullable': DartObjectMock.bool(true),
               'title': DartObjectMock.string('Test entity')
-            }, type: DartTypeMock(displayName: 'RestEntity'))),
-        ElementAnnotationMock(
-            element: classtElt,
-            value: DartObjectMock(fields: {
-              'required': DartObjectMock.bool(false),
             }, type: DartTypeMock(displayName: 'RestEntity'))),
         ElementAnnotationMock(
             element: classtElt,
@@ -101,7 +97,7 @@ void main() {
       ]);
 
       final typeLoader = TypeLoader();
-      final generator = RestEntityGenerator(typeLoader);
+      final generator = RestEntityGenerator(typeLoader, RestEntityOptions());
 
       final code = generator.generateTypeSpecification(classtElt).toList();
 
@@ -116,7 +112,7 @@ void main() {
       expect(code[4], contains('extension RestDataRequestExt on HttpRequest'));
     });
 
-    test('Type specification', () {
+    test('Type specification (no serialization)', () {
       final classtElt = ClassElementMock(
           displayName: 'RestData', name: 'RestData', metadata: []);
 
@@ -124,13 +120,51 @@ void main() {
         ElementAnnotationMock(
             element: classtElt,
             value: DartObjectMock(fields: {
-              'nullable': DartObjectMock.bool(true),
               'title': DartObjectMock.string('Test entity')
             }, type: DartTypeMock(displayName: 'RestEntity'))),
         ElementAnnotationMock(
             element: classtElt,
             value: DartObjectMock(fields: {
-              'required': DartObjectMock.bool(false),
+              'autoSerialize': DartObjectMock.bool(false),
+            }, type: DartTypeMock(displayName: 'RestEntity'))),
+        ElementAnnotationMock(
+            element: classtElt,
+            value: DartObjectMock(fields: {
+              'tags': DartObjectMock.list([
+                DartObjectMock.string('Test 1'),
+                DartObjectMock.string('Test 2'),
+              ]),
+            }, type: DartTypeMock(displayName: 'RestEntity'))),
+      ]);
+
+      final typeLoader = TypeLoader();
+      final generator = RestEntityGenerator(typeLoader, RestEntityOptions());
+
+      final code = generator.generateTypeSpecification(classtElt).toList();
+
+      expect(code.length, equals(3));
+
+      expect(code[0], equals('// REST Entity: RestData'));
+      expect(code[1],
+          contains('extension RestDataRegistrationExt on OpenApiService'));
+      expect(code[2], contains('extension RestDataRequestExt on HttpRequest'));
+    });
+
+    test('Type specification', () {
+      final unnamedCtor = ConstructorElementMock(name: 'RestData', isDefaultConstructor: true);
+      unnamedCtor.parameters.addAll([
+        ParameterElementMock(name: 'identifier', type: DartTypeMock.stringType),
+        ParameterElementMock(name: 'selected', type: DartTypeMock.booleanType, isNamed: true),
+      ]);
+
+      final classtElt = ClassElementMock(
+          displayName: 'RestData', name: 'RestData', metadata: [], unnamedConstructor: unnamedCtor);
+
+      classtElt.metadata.addAll([
+        ElementAnnotationMock(
+            element: classtElt,
+            value: DartObjectMock(fields: {
+              'title': DartObjectMock.string('Test entity')
             }, type: DartTypeMock(displayName: 'RestEntity'))),
         ElementAnnotationMock(
             element: classtElt,
@@ -148,7 +182,7 @@ void main() {
       ]);
 
       final typeLoader = TypeLoader();
-      final generator = RestEntityGenerator(typeLoader);
+      final generator = RestEntityGenerator(typeLoader, RestEntityOptions());
 
       final code = generator.generateTypeSpecification(classtElt).toList();
 
@@ -161,11 +195,13 @@ void main() {
       expect(code[1], contains('selected'));
       expect(
           code[2], contains('extension RestDataSerializationExt on RestData'));
-      expect(code[1], contains('identifier'));
-      expect(code[1], contains('selected'));
+      expect(code[2], contains('[\'identifier\']'));
+      expect(code[2], contains('[\'selected\']'));
       expect(code[3], contains('extension RestDataDeserializationExt on Map'));
-      expect(code[1], contains('identifier'));
-      expect(code[1], contains('selected'));
+      expect(code[3], contains('\'identifier\''));
+      expect(code[3], predicate<String>((c) => !c.contains('identifier:')));
+      expect(code[3], contains('selected:'));
+      expect(code[3], contains('\'selected\''));
       expect(code[4], contains('extension RestDataRequestExt on HttpRequest'));
     });
   });
