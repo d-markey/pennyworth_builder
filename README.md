@@ -8,7 +8,7 @@
 
 # Pennyworth Builder
 
-OpenAPI code generator for Alfred, based on Pennyworth.
+Code generator for [Alfred](https://github.com/rknell/alfred) REST APIs with OpenAPI support, based on [Pennyworth](https://github.com/d-markey/pennyworth).
 
 # Usage
 
