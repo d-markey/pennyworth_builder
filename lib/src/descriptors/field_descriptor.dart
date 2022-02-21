@@ -43,15 +43,15 @@ class FieldDescriptor {
         return '$json[${name.stringLiteral()}]';
       } else {
         final accessor = nullable ? '?' : '';
-        return '$json[${name.stringLiteral()}]$accessor.map((item) => ${type.getDeserializer('(item as Map)')}).toList()';
+        return '$json[${name.stringLiteral()}]$accessor.map((item) => ${type.getDeserializer('(item as Map<String, dynamic>)')}).toList()';
       }
     } else {
       if (type.isScalar) {
         return '$json[${name.stringLiteral()}]';
       } else if (nullable) {
-        return '($json[${name.stringLiteral()}] == null) ? null : ${type.getDeserializer('($json[${name.stringLiteral()}] as Map)')}';
+        return '($json[${name.stringLiteral()}] == null) ? null : ${type.getDeserializer('($json[${name.stringLiteral()}] as Map<String, dynamic>)')}';
       } else {
-        return type.getDeserializer('($json[${name.stringLiteral()}] as Map)');
+        return type.getDeserializer('($json[${name.stringLiteral()}] as Map<String, dynamic>)');
       }
     }
   }
