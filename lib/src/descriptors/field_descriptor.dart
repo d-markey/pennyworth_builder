@@ -21,14 +21,20 @@ class FieldDescriptor {
 
   String getSerializerCode() {
     if (type.isArray) {
-      if (type.isScalar) {
+      if (type.isDateTime) {
+        final accessor = nullable ? '?' : '';
+        return '$name$accessor.map((item) => item.toIso8601String()).toList()';
+      } else if (type.isScalar) {
         return name;
       } else {
         final accessor = nullable ? '?' : '';
         return '$name$accessor.map((item) => item.${type.getSerializer()}).toList()';
       }
     } else {
-      if (type.isScalar) {
+      if (type.isDateTime) {
+        final accessor = nullable ? '?' : '';
+        return '$name$accessor.toIso8601String()';
+      } else if (type.isScalar) {
         return name;
       } else {
         final accessor = nullable ? '?' : '';
@@ -39,19 +45,29 @@ class FieldDescriptor {
 
   String getDeserializerCode(String json) {
     if (type.isArray) {
-      if (type.isScalar) {
+      if (type.isDateTime) {
+        final accessor = nullable ? '?' : '';
+        return '$json[${name.stringLiteral()}]$accessor.map((item) => DateTime.parse(item)).toList()';
+      } else if (type.isScalar) {
         return '$json[${name.stringLiteral()}]';
       } else {
         final accessor = nullable ? '?' : '';
         return '$json[${name.stringLiteral()}]$accessor.map((item) => ${type.getDeserializer('(item as Map<String, dynamic>)')}).toList()';
       }
     } else {
-      if (type.isScalar) {
+      if (type.isDateTime) {
+        if (nullable) {
+          return '($json[${name.stringLiteral()}] == null) ? null : DateTime.parse($json[${name.stringLiteral()}])';
+        } else {
+          return 'DateTime.parse($json[${name.stringLiteral()}])';
+        }
+      } else if (type.isScalar) {
         return '$json[${name.stringLiteral()}]';
       } else if (nullable) {
         return '($json[${name.stringLiteral()}] == null) ? null : ${type.getDeserializer('($json[${name.stringLiteral()}] as Map<String, dynamic>)')}';
       } else {
-        return type.getDeserializer('($json[${name.stringLiteral()}] as Map<String, dynamic>)');
+        return type.getDeserializer(
+            '($json[${name.stringLiteral()}] as Map<String, dynamic>)');
       }
     }
   }
@@ -63,6 +79,8 @@ class FieldDescriptor {
       return 'double';
     } else if (name == 'int') {
       return 'integer';
+    } else if (name == 'DateTime') {
+      return 'dateTime';
     } else if (name == 'String') {
       return 'string';
     }
@@ -84,13 +102,20 @@ class FieldDescriptor {
     } else {
       specTypeName = _getSpecTypeName(type.name);
       if (specTypeName == null) {
+        final aTypeName =
+            annotation?.type?.getDisplayString(withNullability: false);
+        if (aTypeName != null) {
+          specTypeName = _getSpecTypeName(aTypeName);
+        }
+      }
+      if (specTypeName == null) {
         specTypeName = 'object';
         itemType = type;
         itemTypeName ??= itemType.name;
       }
     }
 
-    final required = (annotation?.required ?? false) || !nullable;
+    final required = annotation?.required ?? !nullable;
     final title = annotation?.title ?? '';
     final format = annotation?.format ?? '';
 

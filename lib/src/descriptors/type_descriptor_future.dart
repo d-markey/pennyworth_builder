@@ -5,6 +5,9 @@ class FutureTypeDescriptor extends WrappedTypeDescriptor {
   FutureTypeDescriptor(TypeDescriptor typeDescr) : super(typeDescr);
 
   @override
+  bool get isDateTime => typeDescr.isDateTime;
+
+  @override
   bool? get autoSerialize => typeDescr.autoSerialize;
 
   @override

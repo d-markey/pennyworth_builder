@@ -12,7 +12,11 @@ extension TypePropExt on DartType {
       isDartCoreDouble ||
       isDartCoreInt ||
       isDartCoreNum ||
+      isDartCoreDateTime ||
       isDartCoreString);
+
+  bool get isDartCoreDateTime =>
+      (getDisplayString(withNullability: false).toLowerCase() == 'datetime');
 
   bool get isJsonCompatibleType =>
       isScalar || isDynamic || isDartCoreMap || isDartCoreList;
@@ -21,6 +25,7 @@ extension TypePropExt on DartType {
 class TypeDescriptor {
   TypeDescriptor(DartType type, {required this.isArray, required this.isFuture})
       : name = type.getDisplayString(withNullability: false),
+        isDateTime = type.isDartCoreDateTime,
         isScalar = type.isScalar,
         isDynamic = type.isDynamic {
     final classElt = type.element;
@@ -84,6 +89,7 @@ class TypeDescriptor {
   final bool isArray;
   final bool isFuture;
   final bool isScalar;
+  final bool isDateTime;
   final bool isDynamic;
 
   String? _serializer;
@@ -131,13 +137,11 @@ class TypeDescriptor {
   String get serializationExtensionCode {
     return '''
 extension ${name.upperCamelCase()}SerializationExt on $name {
-  Map<String, dynamic> autoSerialize() {
-    final map = <String, dynamic>{};
-    ${allFields.map((f) => 'map[${f.name.stringLiteral()}] = ${f.getSerializerCode()};').join('\n')}
-    return map;
-  }
-}
-    ''';
+  Map<String, dynamic> autoSerialize() =>
+    <String, dynamic>{
+    ${allFields.map((f) => (f.annotation?.required ?? !f.nullable) ? '${f.name.stringLiteral()}: ${f.getSerializerCode()},' : 'if (${f.name} != null) ${f.name.stringLiteral()}: ${f.getSerializerCode()},').join()}
+    };
+}''';
   }
 
   String get deserializationExtensionCode {
@@ -160,7 +164,7 @@ extension ${name.upperCamelCase()}DeserializationExt on Map<String, dynamic> {
       ''';
     } else {
       return '''
-extension ${name.upperCamelCase()}DeserializationExt on Map {
+extension ${name.upperCamelCase()}DeserializationExt on Map<String, dynamic> {
   $name autoDeserialize${name.upperCamelCase()}() {
     throw Exception('Class $name has no unnamed constructor');
   }

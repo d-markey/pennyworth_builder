@@ -34,6 +34,11 @@ class DartTypeMock implements DartType {
   static const booleanType =
       DartTypeMock(displayName: 'bool', isDartCoreBool: true);
 
+  static const nullableBooleanType = DartTypeMock(
+      displayName: 'bool',
+      isDartCoreBool: true,
+      nullabilitySuffix: NullabilitySuffix.question);
+
   static const listDartObjectType =
       DartTypeMock(displayName: 'List<DartObject>', isDartCoreList: true);
 

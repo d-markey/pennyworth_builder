@@ -108,7 +108,10 @@ void main() {
           contains('extension RestDataRegistrationExt on OpenApiService'));
       expect(
           code[2], contains('extension RestDataSerializationExt on RestData'));
-      expect(code[3], contains('extension RestDataDeserializationExt on Map'));
+      expect(
+          code[3],
+          contains(
+              'extension RestDataDeserializationExt on Map<String, dynamic>'));
       expect(code[4], contains('extension RestDataRequestExt on HttpRequest'));
     });
 
@@ -156,7 +159,9 @@ void main() {
       unnamedCtor.parameters.addAll([
         ParameterElementMock(name: 'identifier', type: DartTypeMock.stringType),
         ParameterElementMock(
-            name: 'selected', type: DartTypeMock.booleanType, isNamed: true),
+            name: 'selected',
+            type: DartTypeMock.nullableBooleanType,
+            isNamed: true),
       ]);
 
       final classtElt = ClassElementMock(
@@ -183,7 +188,8 @@ void main() {
 
       classtElt.fields.addAll([
         FieldElementMock(name: 'identifier', type: DartTypeMock.stringType),
-        FieldElementMock(name: 'selected', type: DartTypeMock.booleanType)
+        FieldElementMock(
+            name: 'selected', type: DartTypeMock.nullableBooleanType)
       ]);
 
       final typeLoader = TypeLoader();
@@ -194,19 +200,29 @@ void main() {
       expect(code.length, equals(5));
 
       expect(code[0], equals('// REST Entity: RestData'));
+
       expect(code[1],
           contains('extension RestDataRegistrationExt on OpenApiService'));
-      expect(code[1], contains('identifier'));
-      expect(code[1], contains('selected'));
+      expect(code[1], contains('\'identifier\''));
+      expect(code[1], contains('\'selected\''));
+      expect(code[1], contains('nullable: true'));
+
       expect(
           code[2], contains('extension RestDataSerializationExt on RestData'));
-      expect(code[2], contains('[\'identifier\']'));
-      expect(code[2], contains('[\'selected\']'));
-      expect(code[3], contains('extension RestDataDeserializationExt on Map'));
-      expect(code[3], contains('\'identifier\''));
+      expect(code[2], contains('\'identifier\': identifier'));
+      expect(code[3],
+          predicate<String>((c) => !c.contains('if (identifier != null)')));
+      expect(code[2], contains('if (selected != null) \'selected\': selected'));
+
+      expect(
+          code[3],
+          contains(
+              'extension RestDataDeserializationExt on Map<String, dynamic>'));
+      expect(code[3], contains('[\'identifier\']'));
       expect(code[3], predicate<String>((c) => !c.contains('identifier:')));
       expect(code[3], contains('selected:'));
       expect(code[3], contains('\'selected\''));
+
       expect(code[4], contains('extension RestDataRequestExt on HttpRequest'));
     });
   });

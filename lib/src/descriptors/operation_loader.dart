@@ -75,7 +75,7 @@ class OperationLoader {
 
     if (outputTypeDescr == null &&
         returnTypeDescr != null &&
-        !returnTypeDescr.isScalar &&
+        // !returnTypeDescr.isScalar &&
         !returnTypeDescr.isDynamic) {
       outputTypeDescr = returnTypeDescr;
     }

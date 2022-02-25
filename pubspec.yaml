@@ -1,6 +1,6 @@
 name: pennyworth_builder
 description: OpenApi code generator for Alfred
-version: 1.0.0
+version: 0.1.0-beta
 publish_to: none
 
 environment:
