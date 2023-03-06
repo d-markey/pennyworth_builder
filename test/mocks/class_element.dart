@@ -9,17 +9,12 @@ import 'interface_type.dart';
 
 class ClassElementMock extends ElementMock implements ClassElement {
   ClassElementMock(
-      {required String displayName,
-      required String name,
+      {required String name,
       this.unnamedConstructor,
       List<ElementAnnotation>? metadata})
-      : super(displayName: displayName, name: name, metadata: metadata) {
-    thisType =
-        InterfaceTypeMock(displayName: displayName, name: name, element: this);
+      : super(name: name, metadata: metadata) {
+    thisType = InterfaceTypeMock(name: name, element: this);
   }
-
-  @override
-  String get name => super.name!;
 
   @override
   final List<InterfaceType> allSupertypes = [];
@@ -85,9 +80,6 @@ class ClassElementMock extends ElementMock implements ClassElement {
   bool get hasNonFinalField => throw UnimplementedError();
 
   @override
-  bool get hasStaticMember => throw UnimplementedError();
-
-  @override
   InterfaceType instantiate(
       {required List<DartType> typeArguments,
       required NullabilitySuffix nullabilitySuffix}) {
@@ -102,12 +94,6 @@ class ClassElementMock extends ElementMock implements ClassElement {
 
   @override
   bool get isDartCoreObject => throw UnimplementedError();
-
-  @override
-  bool get isEnum => throw UnimplementedError();
-
-  @override
-  bool get isMixin => throw UnimplementedError();
 
   @override
   bool get isMixinApplication => throw UnimplementedError();
@@ -176,4 +162,66 @@ class ClassElementMock extends ElementMock implements ClassElement {
 
   @override
   List<TypeParameterElement> get typeParameters => throw UnimplementedError();
+
+  @override
+  ClassAugmentationElement? get augmentation => throw UnimplementedError();
+
+  @override
+  AugmentedClassElement get augmented => throw UnimplementedError();
+
+  @override
+  List<Element> get children => throw UnimplementedError();
+
+  @override
+  CompilationUnitElement get enclosingElement3 => throw UnimplementedError();
+
+  @override
+  bool get hasMustBeOverridden => throw UnimplementedError();
+
+  @override
+  bool get hasReopen => throw UnimplementedError();
+
+  @override
+  bool isAccessibleIn2(LibraryElement library) {
+    throw UnimplementedError();
+  }
+
+  @override
+  bool get isBase => throw UnimplementedError();
+
+  @override
+  bool get isConstructable => throw UnimplementedError();
+
+  @override
+  bool get isDartCoreEnum => throw UnimplementedError();
+
+  @override
+  bool get isExhaustive => throw UnimplementedError();
+
+  @override
+  bool isExtendableIn(LibraryElement library) {
+    throw UnimplementedError();
+  }
+
+  @override
+  bool get isFinal => throw UnimplementedError();
+
+  @override
+  bool isImplementableIn(LibraryElement library) {
+    throw UnimplementedError();
+  }
+
+  @override
+  bool get isInterface => throw UnimplementedError();
+
+  @override
+  bool isMixableIn(LibraryElement library) {
+    throw UnimplementedError();
+  }
+
+  @override
+  bool get isMixinClass => throw UnimplementedError();
+
+  @override
+  bool get isSealed => throw UnimplementedError();
 }

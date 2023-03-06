@@ -137,7 +137,7 @@ class TypeDescriptor {
   String get serializationExtensionCode {
     return '''
 extension ${name.upperCamelCase()}SerializationExt on $name {
-  Map<String, dynamic> autoSerialize() =>
+  Map<String, dynamic> \$autoSerialize() =>
     <String, dynamic>{
     ${allFields.map((f) => (f.annotation?.required ?? !f.nullable) ? '${f.name.stringLiteral()}: ${f.getSerializerCode()},' : 'if (${f.name} != null) ${f.name.stringLiteral()}: ${f.getSerializerCode()},').join()}
     };
@@ -157,7 +157,7 @@ extension ${name.upperCamelCase()}SerializationExt on $name {
       }
       return '''
 extension ${name.upperCamelCase()}DeserializationExt on Map<String, dynamic> {
-  $name autoDeserialize${name.upperCamelCase()}() {
+  $name \$autoDeserialize${name.upperCamelCase()}() {
     return $name(${args.join(', ')});
   }
 }
@@ -165,7 +165,7 @@ extension ${name.upperCamelCase()}DeserializationExt on Map<String, dynamic> {
     } else {
       return '''
 extension ${name.upperCamelCase()}DeserializationExt on Map<String, dynamic> {
-  $name autoDeserialize${name.upperCamelCase()}() {
+  $name \$autoDeserialize${name.upperCamelCase()}() {
     throw Exception('Class $name has no unnamed constructor');
   }
 }

@@ -109,4 +109,10 @@ class ElementAnnotationMock implements ElementAnnotation {
   String toSource() {
     throw UnimplementedError();
   }
+
+  @override
+  bool get isMustBeOverridden => throw UnimplementedError();
+
+  @override
+  bool get isReopen => throw UnimplementedError();
 }

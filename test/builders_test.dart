@@ -19,8 +19,7 @@ import 'mocks/parameter_element.dart';
 void main() {
   group('Annotations', () {
     test('Can read a single annotation', () {
-      final classtElt =
-          ElementMock(displayName: 'Dto', name: 'Dto', metadata: []);
+      final classtElt = ElementMock(name: 'Dto', metadata: []);
 
       classtElt.metadata.addAll([
         ElementAnnotationMock(
@@ -28,7 +27,7 @@ void main() {
             value: DartObjectMock(fields: {
               'nullable': DartObjectMock.bool(true),
               'title': DartObjectMock.string('Test entity')
-            }, type: DartTypeMock(displayName: 'RestEntity'))),
+            }, type: DartTypeMock(name: 'RestEntity'))),
       ]);
 
       final reader = AnnotationReader<RestEntity>(classtElt);
@@ -37,8 +36,7 @@ void main() {
     });
 
     test('Can read multiple annotations', () {
-      final classtElt =
-          ElementMock(displayName: 'Dto', name: 'Dto', metadata: []);
+      final classtElt = ElementMock(name: 'Dto', metadata: []);
 
       classtElt.metadata.addAll([
         ElementAnnotationMock(
@@ -46,12 +44,12 @@ void main() {
             value: DartObjectMock(fields: {
               'nullable': DartObjectMock.bool(true),
               'title': DartObjectMock.string('Test entity')
-            }, type: DartTypeMock(displayName: 'RestEntity'))),
+            }, type: DartTypeMock(name: 'RestEntity'))),
         ElementAnnotationMock(
             element: classtElt,
             value: DartObjectMock(fields: {
               'required': DartObjectMock.bool(false),
-            }, type: DartTypeMock(displayName: 'RestEntity'))),
+            }, type: DartTypeMock(name: 'RestEntity'))),
         ElementAnnotationMock(
             element: classtElt,
             value: DartObjectMock(fields: {
@@ -59,7 +57,7 @@ void main() {
                 DartObjectMock.string('Test 1'),
                 DartObjectMock.string('Test 2'),
               ]),
-            }, type: DartTypeMock(displayName: 'RestEntity'))),
+            }, type: DartTypeMock(name: 'RestEntity'))),
       ]);
 
       final reader = AnnotationReader<RestEntity>(classtElt);
@@ -77,15 +75,14 @@ void main() {
 
   group('Code Generation - Entities', () {
     test('Type specification (no fields)', () {
-      final classtElt = ClassElementMock(
-          displayName: 'RestData', name: 'RestData', metadata: []);
+      final classtElt = ClassElementMock(name: 'RestData', metadata: []);
 
       classtElt.metadata.addAll([
         ElementAnnotationMock(
             element: classtElt,
             value: DartObjectMock(
                 fields: {'title': DartObjectMock.string('Test entity')},
-                type: DartTypeMock(displayName: 'RestEntity'))),
+                type: DartTypeMock(name: 'RestEntity'))),
         ElementAnnotationMock(
             element: classtElt,
             value: DartObjectMock(fields: {
@@ -93,7 +90,7 @@ void main() {
                 DartObjectMock.string('Test 1'),
                 DartObjectMock.string('Test 2'),
               ]),
-            }, type: DartTypeMock(displayName: 'RestEntity'))),
+            }, type: DartTypeMock(name: 'RestEntity'))),
       ]);
 
       final typeLoader = TypeLoader();
@@ -116,20 +113,19 @@ void main() {
     });
 
     test('Type specification (no serialization)', () {
-      final classtElt = ClassElementMock(
-          displayName: 'RestData', name: 'RestData', metadata: []);
+      final classtElt = ClassElementMock(name: 'RestData', metadata: []);
 
       classtElt.metadata.addAll([
         ElementAnnotationMock(
             element: classtElt,
             value: DartObjectMock(
                 fields: {'title': DartObjectMock.string('Test entity')},
-                type: DartTypeMock(displayName: 'RestEntity'))),
+                type: DartTypeMock(name: 'RestEntity'))),
         ElementAnnotationMock(
             element: classtElt,
             value: DartObjectMock(fields: {
               'autoSerialize': DartObjectMock.bool(false),
-            }, type: DartTypeMock(displayName: 'RestEntity'))),
+            }, type: DartTypeMock(name: 'RestEntity'))),
         ElementAnnotationMock(
             element: classtElt,
             value: DartObjectMock(fields: {
@@ -137,7 +133,7 @@ void main() {
                 DartObjectMock.string('Test 1'),
                 DartObjectMock.string('Test 2'),
               ]),
-            }, type: DartTypeMock(displayName: 'RestEntity'))),
+            }, type: DartTypeMock(name: 'RestEntity'))),
       ]);
 
       final typeLoader = TypeLoader();
@@ -165,17 +161,14 @@ void main() {
       ]);
 
       final classtElt = ClassElementMock(
-          displayName: 'RestData',
-          name: 'RestData',
-          metadata: [],
-          unnamedConstructor: unnamedCtor);
+          name: 'RestData', metadata: [], unnamedConstructor: unnamedCtor);
 
       classtElt.metadata.addAll([
         ElementAnnotationMock(
             element: classtElt,
             value: DartObjectMock(
                 fields: {'title': DartObjectMock.string('Test entity')},
-                type: DartTypeMock(displayName: 'RestEntity'))),
+                type: DartTypeMock(name: 'RestEntity'))),
         ElementAnnotationMock(
             element: classtElt,
             value: DartObjectMock(fields: {
@@ -183,7 +176,7 @@ void main() {
                 DartObjectMock.string('Test 1'),
                 DartObjectMock.string('Test 2'),
               ]),
-            }, type: DartTypeMock(displayName: 'RestEntity'))),
+            }, type: DartTypeMock(name: 'RestEntity'))),
       ]);
 
       classtElt.fields.addAll([

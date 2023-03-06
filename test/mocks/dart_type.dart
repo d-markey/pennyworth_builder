@@ -5,7 +5,7 @@ import 'package:analyzer/dart/element/type_visitor.dart';
 
 class DartTypeMock implements DartType {
   const DartTypeMock(
-      {required this.displayName,
+      {required this.name,
       this.element,
       this.isDartAsyncFuture = false,
       this.isDartAsyncFutureOr = false,
@@ -24,33 +24,27 @@ class DartTypeMock implements DartType {
       this.isDartCoreSymbol = false,
       this.isDynamic = false,
       this.isVoid = false,
-      String? name,
-      this.nullabilitySuffix = NullabilitySuffix.none})
-      : name = name ?? displayName;
+      this.nullabilitySuffix = NullabilitySuffix.none});
 
   static const stringType =
-      DartTypeMock(displayName: 'String', isDartCoreString: true);
+      DartTypeMock(name: 'String', isDartCoreString: true);
 
-  static const booleanType =
-      DartTypeMock(displayName: 'bool', isDartCoreBool: true);
+  static const booleanType = DartTypeMock(name: 'bool', isDartCoreBool: true);
 
   static const nullableBooleanType = DartTypeMock(
-      displayName: 'bool',
+      name: 'bool',
       isDartCoreBool: true,
       nullabilitySuffix: NullabilitySuffix.question);
 
   static const listDartObjectType =
-      DartTypeMock(displayName: 'List<DartObject>', isDartCoreList: true);
-
-  @override
-  final String displayName;
+      DartTypeMock(name: 'List<DartObject>', isDartCoreList: true);
 
   @override
   final Element? element;
 
   @override
   String getDisplayString({required bool withNullability}) =>
-      '$displayName${withNullability ? '?' : ''}';
+      '$name${withNullability ? '?' : ''}';
 
   @override
   final bool isDartAsyncFuture;
@@ -104,7 +98,7 @@ class DartTypeMock implements DartType {
   final bool isVoid;
 
   @override
-  final String? name;
+  final String name;
 
   @override
   final NullabilitySuffix nullabilitySuffix;
@@ -126,13 +120,7 @@ class DartTypeMock implements DartType {
   InstantiatedTypeAliasElement? get alias => throw UnimplementedError();
 
   @override
-  List<DartType>? get aliasArguments => throw UnimplementedError();
-
-  @override
-  TypeAliasElement? get aliasElement => throw UnimplementedError();
-
-  @override
-  InterfaceType? asInstanceOf(ClassElement element) {
+  InterfaceType? asInstanceOf(InterfaceElement element) {
     throw UnimplementedError();
   }
 
@@ -143,4 +131,16 @@ class DartTypeMock implements DartType {
   DartType resolveToBound(DartType objectType) {
     throw UnimplementedError();
   }
+
+  @override
+  Element? get element2 => throw UnimplementedError();
+
+  @override
+  bool get isDartAsyncStream => throw UnimplementedError();
+
+  @override
+  bool get isDartCoreEnum => throw UnimplementedError();
+
+  @override
+  bool get isDartCoreRecord => throw UnimplementedError();
 }

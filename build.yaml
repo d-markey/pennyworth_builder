@@ -1,0 +1,15 @@
+builders:
+  # name of the builder
+  pennyworth_builder:rest_builder:
+    # library URI containing the builder
+    import: 'package:pennyworth_builder/pennyworth_builder.dart'
+    # Name of the function in the above library to call.
+    builder_factories: [ 'restServiceBuilder', 'restEntityBuilder' ]
+    # The mapping from the source extension to the generated file extension
+    build_extensions: { '.dart': [ '.svc.g.dart', '.dto.g.dart' ] }
+    # Will automatically run on any package that depends on it
+    auto_apply: dependents
+    # Generate to a hidden cache dir
+    build_to: cache
+    # Combine the parts from each builder into one part file.
+    applies_builders: ["source_gen|combining_builder"]

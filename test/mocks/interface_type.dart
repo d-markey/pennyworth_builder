@@ -2,11 +2,11 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 
-import 'dart_type.dart';
+import 'parameterized_type.dart';
 
-class InterfaceTypeMock extends DartTypeMock implements InterfaceType {
+class InterfaceTypeMock extends ParameterizedTypeMock implements InterfaceType {
   InterfaceTypeMock(
-      {required String displayName,
+      {required String name,
       required ClassElement element,
       bool isDartAsyncFuture = false,
       bool isDartAsyncFutureOr = false,
@@ -25,10 +25,9 @@ class InterfaceTypeMock extends DartTypeMock implements InterfaceType {
       bool isDartCoreSymbol = false,
       bool isDynamic = false,
       bool isVoid = false,
-      String? name,
       NullabilitySuffix nullabilitySuffix = NullabilitySuffix.none})
       : super(
-            displayName: displayName,
+            name: name,
             element: element,
             isDartAsyncFuture: isDartAsyncFuture,
             isDartAsyncFutureOr: isDartAsyncFutureOr,
@@ -47,7 +46,6 @@ class InterfaceTypeMock extends DartTypeMock implements InterfaceType {
             isDartCoreSymbol: isDartCoreSymbol,
             isDynamic: isDynamic,
             isVoid: isVoid,
-            name: name,
             nullabilitySuffix: nullabilitySuffix);
 
   @override
@@ -74,18 +72,6 @@ class InterfaceTypeMock extends DartTypeMock implements InterfaceType {
   @override
   PropertyAccessorElement? getSetter(String name) => element.getSetter(name);
 
-  @override
-  PropertyAccessorElement? lookUpGetter(String name, LibraryElement library) =>
-      element.lookUpGetter(name, library);
-
-  @override
-  MethodElement? lookUpMethod(String name, LibraryElement library) =>
-      element.lookUpMethod(name, library);
-
-  @override
-  PropertyAccessorElement? lookUpSetter(String name, LibraryElement library) =>
-      element.lookUpSetter(name, library);
-
   // NOT IMPLEMENTED
 
   @override
@@ -102,36 +88,6 @@ class InterfaceTypeMock extends DartTypeMock implements InterfaceType {
   }
 
   @override
-  PropertyAccessorElement? lookUpGetterInSuperclass(
-      String name, LibraryElement? library) {
-    throw UnimplementedError();
-  }
-
-  @override
-  PropertyAccessorElement? lookUpInheritedGetter(String name,
-      {LibraryElement? library, bool thisType = true}) {
-    throw UnimplementedError();
-  }
-
-  @override
-  ExecutableElement? lookUpInheritedGetterOrMethod(String name,
-      {LibraryElement? library}) {
-    throw UnimplementedError();
-  }
-
-  @override
-  MethodElement? lookUpInheritedMethod(String name,
-      {LibraryElement? library, bool thisType = true}) {
-    throw UnimplementedError();
-  }
-
-  @override
-  PropertyAccessorElement? lookUpInheritedSetter(String name,
-      {LibraryElement? library, bool thisType = true}) {
-    throw UnimplementedError();
-  }
-
-  @override
   MethodElement? lookUpMethod2(String name, LibraryElement library,
       {bool concrete = false,
       bool inherited = false,
@@ -140,21 +96,10 @@ class InterfaceTypeMock extends DartTypeMock implements InterfaceType {
   }
 
   @override
-  MethodElement? lookUpMethodInSuperclass(String name, LibraryElement library) {
-    throw UnimplementedError();
-  }
-
-  @override
   PropertyAccessorElement? lookUpSetter2(String name, LibraryElement library,
       {bool concrete = false,
       bool inherited = false,
       bool recoveryStatic = false}) {
-    throw UnimplementedError();
-  }
-
-  @override
-  PropertyAccessorElement? lookUpSetterInSuperclass(
-      String name, LibraryElement library) {
     throw UnimplementedError();
   }
 
@@ -171,5 +116,5 @@ class InterfaceTypeMock extends DartTypeMock implements InterfaceType {
   List<InterfaceType> get superclassConstraints => throw UnimplementedError();
 
   @override
-  List<DartType> get typeArguments => throw UnimplementedError();
+  InterfaceElement get element2 => throw UnimplementedError();
 }

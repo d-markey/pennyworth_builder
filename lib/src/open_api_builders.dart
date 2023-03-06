@@ -6,17 +6,18 @@ import 'descriptors/type_loader.dart';
 import 'rest_entity_generator.dart';
 import 'rest_service_generator.dart';
 
+final _sharedTypeLoader = TypeLoader();
+
 Builder restEntityBuilder(BuilderOptions options) {
   log.warning('restEntityBuilder options = $options');
-  final typeLoader = TypeLoader();
   final restEntityOptions = RestEntityOptions(options);
   return SharedPartBuilder(
-      [RestEntityGenerator(typeLoader, restEntityOptions)], 'dto');
+      [RestEntityGenerator(_sharedTypeLoader, restEntityOptions)], 'dto');
 }
 
 Builder restServiceBuilder(BuilderOptions options) {
   log.warning('restServiceBuilder options = $options');
-  final operationLoader = OperationLoader(TypeLoader());
+  final operationLoader = OperationLoader(_sharedTypeLoader);
   final restServiceOptions = RestServiceOptions(options);
   return SharedPartBuilder(
       [RestServiceGenerator(operationLoader, restServiceOptions)], 'svc');

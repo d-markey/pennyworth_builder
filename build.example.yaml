@@ -1,0 +1,8 @@
+targets:
+  $default:
+    builders: 
+      pennyworth_builder:rest_builder:
+        generate_for: 
+         - example/**
+        enabled: true
+

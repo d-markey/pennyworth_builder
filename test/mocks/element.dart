@@ -1,26 +1,21 @@
 import 'package:analyzer/dart/analysis/session.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/src/generated/source.dart';
-import 'package:analyzer/src/generated/java_engine.dart';
 import 'package:analyzer/src/generated/engine.dart';
 
 class ElementMock implements Element {
-  ElementMock(
-      {required this.displayName,
-      String? name,
-      List<ElementAnnotation>? metadata})
-      : name = name ?? displayName {
+  ElementMock({required this.name, List<ElementAnnotation>? metadata}) {
     if (metadata != null) this.metadata.addAll(metadata);
   }
-
-  @override
-  final String displayName;
 
   @override
   final List<ElementAnnotation> metadata = [];
 
   @override
-  final String? name;
+  final String name;
+
+  @override
+  String get displayName => name;
 
   // NOT IMPLEMENTED
 
@@ -157,7 +152,7 @@ class ElementMock implements Element {
   Source? get source => throw UnimplementedError();
 
   @override
-  E? thisOrAncestorMatching<E extends Element>(Predicate<Element> predicate) {
+  E? thisOrAncestorMatching<E extends Element>(dynamic predicate) {
     throw UnimplementedError();
   }
 
@@ -168,4 +163,21 @@ class ElementMock implements Element {
 
   @override
   void visitChildren(ElementVisitor visitor) {}
+
+  @override
+  List<Element> get children => throw UnimplementedError();
+
+  @override
+  Element? get enclosingElement3 => throw UnimplementedError();
+
+  @override
+  bool get hasMustBeOverridden => throw UnimplementedError();
+
+  @override
+  bool get hasReopen => throw UnimplementedError();
+
+  @override
+  bool isAccessibleIn2(LibraryElement library) {
+    throw UnimplementedError();
+  }
 }

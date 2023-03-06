@@ -7,15 +7,11 @@ import 'element.dart';
 
 class ParameterElementMock extends ElementMock implements ParameterElement {
   ParameterElementMock(
-      {String? displayName,
-      required String name,
+      {required String name,
       required this.type,
       this.isNamed = false,
       List<ElementAnnotation>? metadata})
-      : super(displayName: displayName ?? name, name: name, metadata: metadata);
-
-  @override
-  String get name => super.name!;
+      : super(name: name, metadata: metadata);
 
   @override
   final bool isNamed;
@@ -75,9 +71,6 @@ class ParameterElementMock extends ElementMock implements ParameterElement {
   bool get isInitializingFormal => throw UnimplementedError();
 
   @override
-  bool get isNotOptional => throw UnimplementedError();
-
-  @override
   bool get isOptional => throw UnimplementedError();
 
   @override
@@ -103,4 +96,10 @@ class ParameterElementMock extends ElementMock implements ParameterElement {
 
   @override
   List<TypeParameterElement> get typeParameters => throw UnimplementedError();
+
+  @override
+  bool get isRequired => throw UnimplementedError();
+
+  @override
+  bool get isSuperFormal => throw UnimplementedError();
 }

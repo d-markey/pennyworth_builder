@@ -76,4 +76,7 @@ class DartObjectMock implements DartObject {
   String? toSymbolValue() {
     throw UnimplementedError();
   }
+
+  @override
+  VariableElement? get variable => throw UnimplementedError();
 }

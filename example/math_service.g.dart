@@ -29,6 +29,8 @@ extension MathService_MounterExt on NestedRoute {
   // ignore: non_constant_identifier_names
   List<OpenApiRoute> mount_MathService(
       MathService api, OpenApiService openApiService) {
+    // ensure types used by these operations are registered
+
     // mount operations on the service's base URI
     final mountPoint = route('/', middleware: const <AlfredMiddleware>[]);
     final tags = ['MATH'];

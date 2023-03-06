@@ -2,7 +2,7 @@ import 'package:analyzer/dart/element/element.dart';
 
 extension StringConversionExt on String? {
   String? stringLiteral() =>
-      (this == null) ? null : ('\'' + this!.replaceAll('\'', '\\\'') + '\'');
+      (this == null) ? null : ('\'${this!.replaceAll('\'', '\\\'')}\'');
 
   String? lowerCamelCase() => (this == null)
       ? null

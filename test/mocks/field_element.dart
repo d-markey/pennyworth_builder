@@ -2,18 +2,14 @@ import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 
-import 'element.dart';
+import 'class_member_element.dart';
 
-class FieldElementMock extends ElementMock implements FieldElement {
+class FieldElementMock extends ClassMemberElementMock implements FieldElement {
   FieldElementMock(
-      {String? displayName,
-      required String name,
+      {required String name,
       required this.type,
       List<ElementAnnotation>? metadata})
-      : super(displayName: displayName ?? name, name: name, metadata: metadata);
-
-  @override
-  String get name => super.name!;
+      : super(name: name, metadata: metadata);
 
   @override
   final DartType type;
@@ -72,4 +68,10 @@ class FieldElementMock extends ElementMock implements FieldElement {
 
   @override
   PropertyAccessorElement? get setter => throw UnimplementedError();
+
+  @override
+  FieldAugmentationElement? get augmentation => throw UnimplementedError();
+
+  @override
+  bool get isPromotable => throw UnimplementedError();
 }

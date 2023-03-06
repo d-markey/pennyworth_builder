@@ -6,14 +6,10 @@ import 'element.dart';
 
 class ConstructorElementMock extends ElementMock implements ConstructorElement {
   ConstructorElementMock(
-      {String? displayName,
-      required String name,
+      {required String name,
       this.isDefaultConstructor = false,
       List<ElementAnnotation>? metadata})
-      : super(displayName: displayName ?? name, name: name, metadata: metadata);
-
-  @override
-  String get name => super.name!;
+      : super(name: name, metadata: metadata);
 
   @override
   final bool isDefaultConstructor;
@@ -91,4 +87,28 @@ class ConstructorElementMock extends ElementMock implements ConstructorElement {
 
   @override
   List<TypeParameterElement> get typeParameters => throw UnimplementedError();
+
+  @override
+  ConstructorAugmentationElement? get augmentation =>
+      throw UnimplementedError();
+
+  @override
+  List<Element> get children => throw UnimplementedError();
+
+  @override
+  InterfaceElement get enclosingElement3 => throw UnimplementedError();
+
+  @override
+  bool get hasMustBeOverridden => throw UnimplementedError();
+
+  @override
+  bool get hasReopen => throw UnimplementedError();
+
+  @override
+  bool isAccessibleIn2(LibraryElement library) {
+    throw UnimplementedError();
+  }
+
+  @override
+  bool get isGenerative => throw UnimplementedError();
 }

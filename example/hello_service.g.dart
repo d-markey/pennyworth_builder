@@ -23,14 +23,14 @@ extension UserDtoRegistrationExt on OpenApiService {
 }
 
 extension UserDtoSerializationExt on UserDto {
-  Map<String, dynamic> autoSerialize() => <String, dynamic>{
+  Map<String, dynamic> $autoSerialize() => <String, dynamic>{
         'name': name,
         if (birthDate != null) 'birthDate': birthDate?.toIso8601String(),
       };
 }
 
 extension UserDtoDeserializationExt on Map<String, dynamic> {
-  UserDto autoDeserializeUserDto() {
+  UserDto $autoDeserializeUserDto() {
     return UserDto(this['name'],
         (this['birthDate'] == null) ? null : DateTime.parse(this['birthDate']));
   }
@@ -77,6 +77,8 @@ extension HelloService_MounterExt on NestedRoute {
   // ignore: non_constant_identifier_names
   List<OpenApiRoute> mount_HelloService(
       HelloService api, OpenApiService openApiService) {
+    // ensure types used by these operations are registered
+    openApiService.registerUserDto();
     // mount operations on the service's base URI
     final mountPoint = route('/', middleware: const <AlfredMiddleware>[]);
     final tags = ['HELLO'];
